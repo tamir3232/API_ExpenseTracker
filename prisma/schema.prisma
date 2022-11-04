@@ -11,10 +11,42 @@ datasource db {
 }
 
 model user {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
   name      String?
   password  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  tracker   tracker[]
+}
+
+model tracker {
+  id        Int      @id @unique @default(autoincrement())
+  money     Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  user      user?    @relation(fields: [userId], references: [id])
+  userId    Int?
+  spend     Spend[]
+  incoe     income[]
+}
+
+model Spend {
+  id            Int      @id @unique @default(autoincrement())
+  spendingMoney Int
+  description   String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  tracker       tracker? @relation(fields: [trackerId], references: [id])
+  trackerId     Int?
+}
+
+model income {
+  id          Int      @id @unique @default(autoincrement())
+  incomeMoney Int
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  tracker     tracker? @relation(fields: [trackerId], references: [id])
+  trackerId   Int?
 }
