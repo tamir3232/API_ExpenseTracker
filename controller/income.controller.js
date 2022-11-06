@@ -102,7 +102,6 @@ const updateIncome = async (req, res, next) => {
             }
         })
 
-        console.log(prisma.tracker)
         const updateTracker = await prisma.tracker.updateMany({
             where: {
                 userId: req.id,

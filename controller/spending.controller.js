@@ -45,9 +45,6 @@ const addSpending = async (req, res, next) => {
             where: {
                 userId: req.id
             },
-
-
-
         })
 
         if (!findTracker) {
@@ -56,7 +53,7 @@ const addSpending = async (req, res, next) => {
                 message: 'user belum buat tracker '
             }
         }
-        const createIncome = await prisma.spend.create({
+        const createSpend = await prisma.spend.create({
             data: {
                 spendingMoney: bodies.spendingMoney,
                 description: bodies.description,
@@ -96,15 +93,45 @@ const updateSpending = async (req, res, next) => {
                 message: 'user belum buat tracker '
             }
         }
-        const updatee = await prisma.todo.updateMany({
+        const findmoney = await prisma.spend.findMany({
+            where: {
+                trackerId: findTracker[0].id,
+                id: bodies.id
+            }
+        })
+        console.log(findmoney[0].spendingMoney)
+        const updateTracker = await prisma.tracker.updateMany({
+            where: {
+                userId: req.id,
+
+            },
+            data: {
+                money: findTracker[0].money + findmoney[0].spendingMoney,
+            }
+        })
+
+        const findTrackerr = await prisma.tracker.findMany({
+            where: {
+                userId: req.id
+            }
+        })
+        const updatee = await prisma.spend.updateMany({
             where: {
                 trackerId: findTracker[0].id,
                 id: bodies.id
             },
             data: {
-                spendingMoney: bodies.description,
+                spendingMoney: bodies.spendingMoney,
                 description: bodies.description
 
+            }
+        })
+        const updateTrackerr = await prisma.tracker.updateMany({
+            where: {
+                userId: req.id
+            },
+            data: {
+                money: findTrackerr[0].money - bodies.spendingMoney
             }
         })
         return res.status(200).json({
@@ -132,6 +159,20 @@ const deleteSpending = async (req, res, next) => {
                 message: 'user belum buat tracker '
             }
         }
+        const findmoney = await prisma.spend.findMany({
+            where: {
+                trackerId: findTracker[0].id,
+                id: Number(id)
+            },
+        })
+        const updatedmoney = await prisma.tracker.updateMany({
+            where: {
+                userId: req.id
+            },
+            data: {
+                money: findTracker[0].money + findmoney[0].spendingMoney
+            }
+        })
         const dell = await prisma.spend.deleteMany({
             where: {
                 trackerId: findTracker[0].id,
