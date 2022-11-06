@@ -106,3 +106,5 @@ const deleteIncome = async (req, res, next) => {
 
     }
 }
+
+module.exports = { getIncome, addIncome, updateIncome, deleteIncome }
