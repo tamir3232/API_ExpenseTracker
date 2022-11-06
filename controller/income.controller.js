@@ -32,3 +32,77 @@ const getIncome = async (req, res, next) => {
         next(error)
     }
 }
+const addIncome = async (req, res, next) => {
+    try {
+        const bodies = req.body
+        const findTracker = await prisma.tracker.findMany({
+            where: {
+                userId: req.id
+            }
+        })
+        const createIncome = await prisma.income.create({
+            data: {
+                incomeMoney: bodies.incomeMoney,
+                description: bodies.description,
+                trackerId: findTracker.id
+            }
+        })
+        return res.status(200).json({
+            code: 200,
+            message: "income activity registered"
+        })
+    } catch (error) {
+
+    }
+}
+
+
+const updateIncome = async (req, res, next) => {
+    try {
+        const bodies = req.body
+        const findTracker = await prisma.tracker.findMany({
+            where: {
+                userId: req.id
+            }
+        })
+        const updatee = await prisma.todo.updateMany({
+            where: {
+                trackerId: findTracker.id,
+                id: bodies.id
+            },
+            data: {
+                incomeMoney: bodies.description,
+                description: bodies.description
+
+            }
+        })
+        return res.status(200).json({
+            code: 200,
+            message: "income updated"
+        })
+
+    } catch (error) {
+        next(error)
+    }
+}
+
+const deleteIncome = async (req, res, next) => {
+    try {
+        const bodies = req.body
+        const id = req.params.id
+        const findTracker = await prisma.tracker.findMany({
+            where: {
+                userId: req.id
+            }
+        })
+        const dell = await prisma.income.deleteMany({
+            where: {
+                trackerId: findTracker.id,
+                id: Number(id)
+            },
+        })
+
+    } catch (error) {
+
+    }
+}
