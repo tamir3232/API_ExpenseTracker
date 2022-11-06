@@ -1,11 +1,11 @@
 const router = require('express').Router()
 
 const { getIncome, addIncome, updateIncome, deleteIncome } = require('../controller/income.controller')
-// const {Authorization} == require('../prisma/middlewares/authorization.middleware')
+const { Authorization } = require('../prisma/middlewares/authorization.middleware')
 
-router.get('/', getIncome)
-router.post('/add', addIncome)
-router.patch('/update', updateIncome)
-router.delete('/del', deleteIncome)
+router.get('/', Authorization, getIncome)
+router.post('/add', Authorization, addIncome)
+router.patch('/update', Authorization, updateIncome)
+router.delete('/del', Authorization, deleteIncome)
 
 module.exports = router
