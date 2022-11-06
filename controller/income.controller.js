@@ -11,13 +11,19 @@ const getIncome = async (req, res, next) => {
                 userId: req.id
             }
         })
+        if (!findTracker) {
+            throw {
+                code: 400,
+                message: 'user belum buat tracker '
+            }
+        }
 
         const findAll = await prisma.income.findMany({
             where: {
                 trackerId: findTracker.id
             }
         })
-        if (findAll == null) {
+        if (findAll == null || !findAll) {
             throw {
                 code: 400,
                 message: 'no money coming in'
@@ -40,6 +46,12 @@ const addIncome = async (req, res, next) => {
                 userId: req.id
             }
         })
+        if (!findTracker) {
+            throw {
+                code: 400,
+                message: 'user belum buat tracker '
+            }
+        }
         const createIncome = await prisma.income.create({
             data: {
                 incomeMoney: bodies.incomeMoney,
@@ -65,6 +77,12 @@ const updateIncome = async (req, res, next) => {
                 userId: req.id
             }
         })
+        if (!findTracker) {
+            throw {
+                code: 400,
+                message: 'user belum buat tracker '
+            }
+        }
         const updatee = await prisma.todo.updateMany({
             where: {
                 trackerId: findTracker.id,
@@ -95,15 +113,25 @@ const deleteIncome = async (req, res, next) => {
                 userId: req.id
             }
         })
+        if (!findTracker) {
+            throw {
+                code: 400,
+                message: 'user belum buat tracker '
+            }
+        }
         const dell = await prisma.income.deleteMany({
             where: {
                 trackerId: findTracker.id,
                 id: Number(id)
             },
         })
+        return res.status(200).json({
+            code: 200,
+            message: "income deleted"
+        })
 
     } catch (error) {
-
+        next(error)
     }
 }
 
