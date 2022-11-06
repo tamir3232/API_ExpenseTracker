@@ -6,7 +6,7 @@ const validation = require('../prisma/middlewares/schema.middlewares')
 const registerIncome = require('../schema/addincome')
 router.get('/', Authorization, getIncome)
 router.post('/add', Authorization, validation(registerIncome), addIncome)
-router.patch('/update', Authorization, updateIncome)
-router.delete('/del', Authorization, deleteIncome)
+router.put('/update', Authorization, updateIncome)
+router.delete('/del/:id', Authorization, deleteIncome)
 
 module.exports = router
