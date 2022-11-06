@@ -2,24 +2,23 @@ const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const { description } = require('../schema/addincome')
 
 
-const getIncome = async (req, res, next) => {
+const getSpending = async (req, res, next) => {
     try {
         const findTracker = await prisma.tracker.findMany({
             where: {
                 userId: req.id
             }
         })
-        if (!findTracker) {
+        if (!findTracker || findTracker.length <= 0) {
             throw {
                 code: 400,
                 message: 'user belum buat tracker '
             }
         }
 
-        const findAll = await prisma.income.findMany({
+        const findAll = await prisma.spend.findMany({
             where: {
                 trackerId: findTracker[0].id
             }
@@ -32,20 +31,23 @@ const getIncome = async (req, res, next) => {
         }
         return res.status(200).json({
             code: 200,
-            message: 'YOUR INCOME',
+            message: 'YOUR Spend',
             data: findAll
         })
     } catch (error) {
         next(error)
     }
 }
-const addIncome = async (req, res, next) => {
+const addSpending = async (req, res, next) => {
     try {
         const bodies = req.body
         const findTracker = await prisma.tracker.findMany({
             where: {
                 userId: req.id
             },
+
+
+
         })
 
         if (!findTracker) {
@@ -54,9 +56,9 @@ const addIncome = async (req, res, next) => {
                 message: 'user belum buat tracker '
             }
         }
-        const createIncome = await prisma.income.create({
+        const createIncome = await prisma.spend.create({
             data: {
-                incomeMoney: bodies.incomeMoney,
+                spendingMoney: bodies.spendingMoney,
                 description: bodies.description,
                 trackerId: findTracker[0].id
             }
@@ -67,12 +69,12 @@ const addIncome = async (req, res, next) => {
                 userId: req.id
             },
             data: {
-                money: findTracker[0].money + bodies.incomeMoney
+                money: findTracker[0].money - bodies.spendingMoney
             }
         })
         return res.status(200).json({
             code: 200,
-            message: "income activity registered"
+            message: "spend activity registered"
         })
     } catch (error) {
         next(error)
@@ -80,7 +82,7 @@ const addIncome = async (req, res, next) => {
 }
 
 
-const updateIncome = async (req, res, next) => {
+const updateSpending = async (req, res, next) => {
     try {
         const bodies = req.body
         const findTracker = await prisma.tracker.findMany({
@@ -94,53 +96,20 @@ const updateIncome = async (req, res, next) => {
                 message: 'user belum buat tracker '
             }
         }
-
-        const findmoney = await prisma.income.findMany({
-            where: {
-                trackerId: findTracker[0].id,
-                id: bodies.id
-            }
-        })
-
-        console.log(prisma.tracker)
-        const updateTracker = await prisma.tracker.updateMany({
-            where: {
-                userId: req.id,
-
-            },
-            data: {
-                money: findTracker[0].money - findmoney[0].incomeMoney,
-            }
-        })
-
-
-        const findTrackerr = await prisma.tracker.findMany({
-            where: {
-                userId: req.id
-            }
-        })
-        const updatee = await prisma.income.updateMany({
+        const updatee = await prisma.todo.updateMany({
             where: {
                 trackerId: findTracker[0].id,
                 id: bodies.id
             },
             data: {
-                incomeMoney: bodies.incomeMoney,
-                description: bodies.description,
+                spendingMoney: bodies.description,
+                description: bodies.description
 
-            }
-        })
-        const updateTrackerr = await prisma.tracker.updateMany({
-            where: {
-                userId: req.id
-            },
-            data: {
-                money: findTrackerr[0].money + bodies.incomeMoney
             }
         })
         return res.status(200).json({
             code: 200,
-            message: "income updated"
+            message: "spend updated"
         })
 
     } catch (error) {
@@ -148,7 +117,7 @@ const updateIncome = async (req, res, next) => {
     }
 }
 
-const deleteIncome = async (req, res, next) => {
+const deleteSpending = async (req, res, next) => {
     try {
         const bodies = req.body
         const id = req.params.id
@@ -163,21 +132,7 @@ const deleteIncome = async (req, res, next) => {
                 message: 'user belum buat tracker '
             }
         }
-        const findmoney = await prisma.income.findMany({
-            where: {
-                trackerId: findTracker[0].id,
-                id: Number(id)
-            },
-        })
-        const updatedmoney = await prisma.tracker.updateMany({
-            where: {
-                userId: req.id
-            },
-            data: {
-                money: findTracker[0].money - findmoney[0].incomeMoney
-            }
-        })
-        const dell = await prisma.income.deleteMany({
+        const dell = await prisma.spend.deleteMany({
             where: {
                 trackerId: findTracker[0].id,
                 id: Number(id)
@@ -185,7 +140,7 @@ const deleteIncome = async (req, res, next) => {
         })
         return res.status(200).json({
             code: 200,
-            message: "income deleted"
+            message: "spend deleted"
         })
 
     } catch (error) {
@@ -193,4 +148,4 @@ const deleteIncome = async (req, res, next) => {
     }
 }
 
-module.exports = { getIncome, addIncome, updateIncome, deleteIncome }
+module.exports = { getSpending, addSpending, updateSpending, deleteSpending }

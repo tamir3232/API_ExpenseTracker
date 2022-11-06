@@ -6,6 +6,9 @@ const cors = require('cors')
 const app = express()
 const port = process.env.PORT
 const incomeRouter = require('./routes/income.routes')
+const userRouter = require('./routes/authorization.routes')
+const trackerRouter = require('./routes/tracker.routes')
+const spendRouter = require('./routes/spending.routes')
 
 app.use(cors())
 app.use(express.urlencoded({ extended: true }))
@@ -18,7 +21,9 @@ app.get('/', async (req, res) => {
 })
 
 app.use('/income', incomeRouter)
-
+app.use('/auth', userRouter)
+app.use('/tracker', trackerRouter)
+app.use('/spending', spendRouter)
 
 
 
@@ -31,3 +36,5 @@ app.use((err, req, res, next) => {
 app.listen(port, () => {
     console.log(`SERVER RUNING ATT PORT ${port}`)
 })
+
+module.exports = { app }
