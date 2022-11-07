@@ -22,21 +22,20 @@ beforeAll(async () => {
 })
 
 
-describe('/income/add', () => {
-    it('should income add successful created', async () => {
+describe('/tracker/add', () => {
+    it('should tracker wallet add successful created', async () => {
         return request(app)
-            .post('/income/add')
+            .post('/tracker/add')
             .set('Authorization', 'Bearer ' + token)
             .send({
-                incomeMoney: 2000000,
-                description: "masuk dari gaji",
+                money: 20000
 
 
             })
             .expect('Content-Type', /json/)
             .then((response) => {
                 // expect(response.status).toBe(200)
-                expect(response.body.message).toBe('income activity registered')
+                expect(response.body.message).toBe('Money added')
             })
     })
 

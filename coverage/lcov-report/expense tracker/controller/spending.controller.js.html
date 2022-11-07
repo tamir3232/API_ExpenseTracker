@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for expense tracker/controller/income.controller.js</title>
+    <title>Code coverage report for expense tracker/controller/spending.controller.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">expense tracker/controller</a> income.controller.js</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">expense tracker/controller</a> spending.controller.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">8.2% </span>
+                <span class="strong">7.81% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>16/195</span>
+                <span class='fraction'>15/192</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">8.2% </span>
+                <span class="strong">7.81% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>16/195</span>
+                <span class='fraction'>15/192</span>
             </div>
         
             
@@ -254,11 +254,7 @@
 <a name='L189'></a><a href='#L189'>189</a>
 <a name='L190'></a><a href='#L190'>190</a>
 <a name='L191'></a><a href='#L191'>191</a>
-<a name='L192'></a><a href='#L192'>192</a>
-<a name='L193'></a><a href='#L193'>193</a>
-<a name='L194'></a><a href='#L194'>194</a>
-<a name='L195'></a><a href='#L195'>195</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<a name='L192'></a><a href='#L192'>192</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -340,8 +336,6 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -455,24 +449,23 @@
 const prisma = new PrismaClient()
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const { description } = require('../schema/addincome')
 &nbsp;
 &nbsp;
-const getIncome = <span class="fstat-no" title="function not covered" >async (req, res, next) =&gt; {</span>
+const getSpending = <span class="fstat-no" title="function not covered" >async (req, res, next) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    try {</span>
 <span class="cstat-no" title="statement not covered" >        const findTracker = await prisma.tracker.findMany({</span>
 <span class="cstat-no" title="statement not covered" >            where: {</span>
 <span class="cstat-no" title="statement not covered" >                userId: req.id</span>
 <span class="cstat-no" title="statement not covered" >            }</span>
 <span class="cstat-no" title="statement not covered" >        })</span>
-<span class="cstat-no" title="statement not covered" >        if (!findTracker) {</span>
+<span class="cstat-no" title="statement not covered" >        if (!findTracker || findTracker.length &lt;= 0) {</span>
 <span class="cstat-no" title="statement not covered" >            throw {</span>
 <span class="cstat-no" title="statement not covered" >                code: 400,</span>
 <span class="cstat-no" title="statement not covered" >                message: 'user belum buat tracker '</span>
 <span class="cstat-no" title="statement not covered" >            }</span>
 <span class="cstat-no" title="statement not covered" >        }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >        const findAll = await prisma.income.findMany({</span>
+<span class="cstat-no" title="statement not covered" >        const findAll = await prisma.spend.findMany({</span>
 <span class="cstat-no" title="statement not covered" >            where: {</span>
 <span class="cstat-no" title="statement not covered" >                trackerId: findTracker[0].id</span>
 <span class="cstat-no" title="statement not covered" >            }</span>
@@ -485,14 +478,14 @@ const getIncome = <span class="fstat-no" title="function not covered" >async (re
 <span class="cstat-no" title="statement not covered" >        }</span>
 <span class="cstat-no" title="statement not covered" >        return res.status(200).json({</span>
 <span class="cstat-no" title="statement not covered" >            code: 200,</span>
-<span class="cstat-no" title="statement not covered" >            message: 'YOUR INCOME',</span>
+<span class="cstat-no" title="statement not covered" >            message: 'YOUR Spend',</span>
 <span class="cstat-no" title="statement not covered" >            data: findAll</span>
 <span class="cstat-no" title="statement not covered" >        })</span>
 <span class="cstat-no" title="statement not covered" >    } catch (error) {</span>
 <span class="cstat-no" title="statement not covered" >        next(error)</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" >}</span>
-const addIncome = <span class="fstat-no" title="function not covered" >async (req, res, next) =&gt; {</span>
+const addSpending = <span class="fstat-no" title="function not covered" >async (req, res, next) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    try {</span>
 <span class="cstat-no" title="statement not covered" >        const bodies = req.body</span>
 <span class="cstat-no" title="statement not covered" >        const findTracker = await prisma.tracker.findMany({</span>
@@ -507,9 +500,9 @@ const addIncome = <span class="fstat-no" title="function not covered" >async (re
 <span class="cstat-no" title="statement not covered" >                message: 'user belum buat tracker '</span>
 <span class="cstat-no" title="statement not covered" >            }</span>
 <span class="cstat-no" title="statement not covered" >        }</span>
-<span class="cstat-no" title="statement not covered" >        const createIncome = await prisma.income.create({</span>
+<span class="cstat-no" title="statement not covered" >        const createSpend = await prisma.spend.create({</span>
 <span class="cstat-no" title="statement not covered" >            data: {</span>
-<span class="cstat-no" title="statement not covered" >                incomeMoney: bodies.incomeMoney,</span>
+<span class="cstat-no" title="statement not covered" >                spendingMoney: bodies.spendingMoney,</span>
 <span class="cstat-no" title="statement not covered" >                description: bodies.description,</span>
 <span class="cstat-no" title="statement not covered" >                trackerId: findTracker[0].id</span>
 <span class="cstat-no" title="statement not covered" >            }</span>
@@ -520,12 +513,12 @@ const addIncome = <span class="fstat-no" title="function not covered" >async (re
 <span class="cstat-no" title="statement not covered" >                userId: req.id</span>
 <span class="cstat-no" title="statement not covered" >            },</span>
 <span class="cstat-no" title="statement not covered" >            data: {</span>
-<span class="cstat-no" title="statement not covered" >                money: findTracker[0].money + bodies.incomeMoney</span>
+<span class="cstat-no" title="statement not covered" >                money: findTracker[0].money - bodies.spendingMoney</span>
 <span class="cstat-no" title="statement not covered" >            }</span>
 <span class="cstat-no" title="statement not covered" >        })</span>
 <span class="cstat-no" title="statement not covered" >        return res.status(200).json({</span>
 <span class="cstat-no" title="statement not covered" >            code: 200,</span>
-<span class="cstat-no" title="statement not covered" >            message: "income activity registered"</span>
+<span class="cstat-no" title="statement not covered" >            message: "spend activity registered"</span>
 <span class="cstat-no" title="statement not covered" >        })</span>
 <span class="cstat-no" title="statement not covered" >    } catch (error) {</span>
 <span class="cstat-no" title="statement not covered" >        next(error)</span>
@@ -533,7 +526,7 @@ const addIncome = <span class="fstat-no" title="function not covered" >async (re
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;
 &nbsp;
-const updateIncome = <span class="fstat-no" title="function not covered" >async (req, res, next) =&gt; {</span>
+const updateSpending = <span class="fstat-no" title="function not covered" >async (req, res, next) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    try {</span>
 <span class="cstat-no" title="statement not covered" >        const bodies = req.body</span>
 <span class="cstat-no" title="statement not covered" >        const findTracker = await prisma.tracker.findMany({</span>
@@ -547,38 +540,36 @@ const updateIncome = <span class="fstat-no" title="function not covered" >async 
 <span class="cstat-no" title="statement not covered" >                message: 'user belum buat tracker '</span>
 <span class="cstat-no" title="statement not covered" >            }</span>
 <span class="cstat-no" title="statement not covered" >        }</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >        const findmoney = await prisma.income.findMany({</span>
+<span class="cstat-no" title="statement not covered" >        const findmoney = await prisma.spend.findMany({</span>
 <span class="cstat-no" title="statement not covered" >            where: {</span>
 <span class="cstat-no" title="statement not covered" >                trackerId: findTracker[0].id,</span>
 <span class="cstat-no" title="statement not covered" >                id: bodies.id</span>
 <span class="cstat-no" title="statement not covered" >            }</span>
 <span class="cstat-no" title="statement not covered" >        })</span>
-<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >        console.log(findmoney[0].spendingMoney)</span>
 <span class="cstat-no" title="statement not covered" >        const updateTracker = await prisma.tracker.updateMany({</span>
 <span class="cstat-no" title="statement not covered" >            where: {</span>
 <span class="cstat-no" title="statement not covered" >                userId: req.id,</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >            },</span>
 <span class="cstat-no" title="statement not covered" >            data: {</span>
-<span class="cstat-no" title="statement not covered" >                money: findTracker[0].money - findmoney[0].incomeMoney,</span>
+<span class="cstat-no" title="statement not covered" >                money: findTracker[0].money + findmoney[0].spendingMoney,</span>
 <span class="cstat-no" title="statement not covered" >            }</span>
 <span class="cstat-no" title="statement not covered" >        })</span>
-<span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >        const findTrackerr = await prisma.tracker.findMany({</span>
 <span class="cstat-no" title="statement not covered" >            where: {</span>
 <span class="cstat-no" title="statement not covered" >                userId: req.id</span>
 <span class="cstat-no" title="statement not covered" >            }</span>
 <span class="cstat-no" title="statement not covered" >        })</span>
-<span class="cstat-no" title="statement not covered" >        const updatee = await prisma.income.updateMany({</span>
+<span class="cstat-no" title="statement not covered" >        const updatee = await prisma.spend.updateMany({</span>
 <span class="cstat-no" title="statement not covered" >            where: {</span>
 <span class="cstat-no" title="statement not covered" >                trackerId: findTracker[0].id,</span>
 <span class="cstat-no" title="statement not covered" >                id: bodies.id</span>
 <span class="cstat-no" title="statement not covered" >            },</span>
 <span class="cstat-no" title="statement not covered" >            data: {</span>
-<span class="cstat-no" title="statement not covered" >                incomeMoney: bodies.incomeMoney,</span>
-<span class="cstat-no" title="statement not covered" >                description: bodies.description,</span>
+<span class="cstat-no" title="statement not covered" >                spendingMoney: bodies.spendingMoney,</span>
+<span class="cstat-no" title="statement not covered" >                description: bodies.description</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >            }</span>
 <span class="cstat-no" title="statement not covered" >        })</span>
@@ -587,12 +578,12 @@ const updateIncome = <span class="fstat-no" title="function not covered" >async 
 <span class="cstat-no" title="statement not covered" >                userId: req.id</span>
 <span class="cstat-no" title="statement not covered" >            },</span>
 <span class="cstat-no" title="statement not covered" >            data: {</span>
-<span class="cstat-no" title="statement not covered" >                money: findTrackerr[0].money + bodies.incomeMoney</span>
+<span class="cstat-no" title="statement not covered" >                money: findTrackerr[0].money - bodies.spendingMoney</span>
 <span class="cstat-no" title="statement not covered" >            }</span>
 <span class="cstat-no" title="statement not covered" >        })</span>
 <span class="cstat-no" title="statement not covered" >        return res.status(200).json({</span>
 <span class="cstat-no" title="statement not covered" >            code: 200,</span>
-<span class="cstat-no" title="statement not covered" >            message: "income updated"</span>
+<span class="cstat-no" title="statement not covered" >            message: "spend updated"</span>
 <span class="cstat-no" title="statement not covered" >        })</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    } catch (error) {</span>
@@ -600,7 +591,7 @@ const updateIncome = <span class="fstat-no" title="function not covered" >async 
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;
-const deleteIncome = <span class="fstat-no" title="function not covered" >async (req, res, next) =&gt; {</span>
+const deleteSpending = <span class="fstat-no" title="function not covered" >async (req, res, next) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    try {</span>
 <span class="cstat-no" title="statement not covered" >        const bodies = req.body</span>
 <span class="cstat-no" title="statement not covered" >        const id = req.params.id</span>
@@ -615,7 +606,7 @@ const deleteIncome = <span class="fstat-no" title="function not covered" >async 
 <span class="cstat-no" title="statement not covered" >                message: 'user belum buat tracker '</span>
 <span class="cstat-no" title="statement not covered" >            }</span>
 <span class="cstat-no" title="statement not covered" >        }</span>
-<span class="cstat-no" title="statement not covered" >        const findmoney = await prisma.income.findMany({</span>
+<span class="cstat-no" title="statement not covered" >        const findmoney = await prisma.spend.findMany({</span>
 <span class="cstat-no" title="statement not covered" >            where: {</span>
 <span class="cstat-no" title="statement not covered" >                trackerId: findTracker[0].id,</span>
 <span class="cstat-no" title="statement not covered" >                id: Number(id)</span>
@@ -626,10 +617,10 @@ const deleteIncome = <span class="fstat-no" title="function not covered" >async 
 <span class="cstat-no" title="statement not covered" >                userId: req.id</span>
 <span class="cstat-no" title="statement not covered" >            },</span>
 <span class="cstat-no" title="statement not covered" >            data: {</span>
-<span class="cstat-no" title="statement not covered" >                money: findTracker[0].money - findmoney[0].incomeMoney</span>
+<span class="cstat-no" title="statement not covered" >                money: findTracker[0].money + findmoney[0].spendingMoney</span>
 <span class="cstat-no" title="statement not covered" >            }</span>
 <span class="cstat-no" title="statement not covered" >        })</span>
-<span class="cstat-no" title="statement not covered" >        const dell = await prisma.income.deleteMany({</span>
+<span class="cstat-no" title="statement not covered" >        const dell = await prisma.spend.deleteMany({</span>
 <span class="cstat-no" title="statement not covered" >            where: {</span>
 <span class="cstat-no" title="statement not covered" >                trackerId: findTracker[0].id,</span>
 <span class="cstat-no" title="statement not covered" >                id: Number(id)</span>
@@ -637,7 +628,7 @@ const deleteIncome = <span class="fstat-no" title="function not covered" >async 
 <span class="cstat-no" title="statement not covered" >        })</span>
 <span class="cstat-no" title="statement not covered" >        return res.status(200).json({</span>
 <span class="cstat-no" title="statement not covered" >            code: 200,</span>
-<span class="cstat-no" title="statement not covered" >            message: "income deleted"</span>
+<span class="cstat-no" title="statement not covered" >            message: "spend deleted"</span>
 <span class="cstat-no" title="statement not covered" >        })</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    } catch (error) {</span>
@@ -645,7 +636,7 @@ const deleteIncome = <span class="fstat-no" title="function not covered" >async 
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;
-module.exports = { getIncome, addIncome, updateIncome, deleteIncome }</pre></td></tr></table></pre>
+module.exports = { getSpending, addSpending, updateSpending, deleteSpending }</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
