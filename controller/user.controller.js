@@ -81,7 +81,9 @@ const login = async (req, res, next) => {
         return res.status(200).json({
             code: 200,
             message: 'anda berhasil login',
-            data: token
+            data: {
+                token,
+            },
         })
 
 
